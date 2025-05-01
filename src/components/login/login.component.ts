@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
 
     this.testingServ.selectedUser$.subscribe((res:any)=>{
       if(res){
-        console.log('USER VALUES',res)
         this.userInfo.patchValue(res)
       }
     })
