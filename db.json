@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "f34c",
+      "firstName": "Karthik",
+      "lastName": "Reddy",
+      "email": "karthik88@gmail.com",
+      "phno": "9701758164",
+      "dob": "1995-01-20",
+      "age": 30
+    },
+    {
+      "id": "46bb",
+      "firstName": "sudheer",
+      "lastName": "sudheer",
+      "email": "sudheer12@gmail.com",
+      "phno": "84596696706",
+      "dob": "1994-11-05",
+      "age": 30
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+Install 
+npm install json-server
+
+Run
+
+json-server --watch db.json --port 3004 ---> In Your Terminal

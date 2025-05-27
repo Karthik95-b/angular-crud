@@ -1,0 +1,27 @@
+import { Component, inject, OnInit } from '@angular/core';
+import { ApiService } from '../../app/services/api.service';
+
+@Component({
+  selector: 'app-dashboard',
+  imports: [],
+  templateUrl: './dashboard.component.html',
+  styleUrl: './dashboard.component.css'
+})
+export class DashboardComponent implements OnInit {
+
+  userList: any[] = [];
+  apiService = inject(ApiService)
+
+  constructor(){
+
+  }
+  ngOnInit(): void {
+    this.getAllUsers();
+  }
+  getAllUsers(){
+    this.apiService.getAllUsers().subscribe((res:any)=>{
+      console.log('All Users', res);
+          this.userList = res;
+    })
+  }
+}

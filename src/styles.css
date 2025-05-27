@@ -1,1 +1,16 @@
 @import "bootstrap/dist/css/bootstrap.css";
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: aquamarine;
+}
+.navbar {
+  background-color: aquamarine !important;
+  box-shadow: 0px 0px 5px 0px black;
+}

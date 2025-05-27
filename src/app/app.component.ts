@@ -3,9 +3,12 @@ import { LoginComponent } from "../components/login/login.component";
 import { TestingService } from './testing.service';
 import {faPen,faTrash}  from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeModule}  from '@fortawesome/angular-fontawesome'
+import e from 'express';
+import { HeaderComponent } from "../components/header/header.component";
+import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-root',
-  imports: [ LoginComponent,FontAwesomeModule],
+  imports: [LoginComponent, FontAwesomeModule, HeaderComponent,RouterOutlet],
   providers:[],
   standalone:true,
   templateUrl: './app.component.html',
@@ -18,6 +21,7 @@ export class AppComponent implements OnInit {
 
   storeUserInformation = signal<any>([]);
   testingServ = inject(TestingService);
+  storeEditUserInformation = signal<any>(null);
   constructor(){
 
   }
@@ -33,6 +37,7 @@ export class AppComponent implements OnInit {
   }
   onEdit(element:any){
     this.testingServ.setUserInfo(element)
+    // this.storeEditUserInformation.set(element)
   }
   onDelete(element:any){
     const current = this.storeUserInformation();

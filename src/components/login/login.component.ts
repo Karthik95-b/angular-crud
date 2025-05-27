@@ -1,13 +1,15 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, SimpleChanges } from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms'
 import { TestingService } from '../../app/testing.service';
 import { ProductsService } from '../../app/services/products.service';
 import { CommonModule } from '@angular/common';
-
+import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar'
+import { ActivatedRoute, NavigationStart, Router,Event } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 @Component({
   selector: 'app-login',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,MatSnackBarModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   animations:[
@@ -27,12 +29,24 @@ export class LoginComponent implements OnInit {
     userInfo! :FormGroup
     testingServ = inject(TestingService);
     productServ = inject(ProductsService)
+    snackBar = inject(MatSnackBar)
+    private title = inject(Title);
+private route = inject(ActivatedRoute);   // For accessing route info
+      pageTitle: string = '';
 
-     constructor(private fb:FormBuilder){
+    @Input() selectedUser: any;
+
+     constructor(private fb:FormBuilder,private router:Router){
+    this.router?.events?.subscribe((event: Event) => {
+        if(event instanceof NavigationStart){
+          // console.log('Navigation Started To',event?.url)
+        }
+       })
    
      }
   ngOnInit(): void {
 
+    console.log('selectedUser on init:', this.selectedUser);
     this.testingServ.selectedUser$.subscribe((res:any)=>{
       if(res){
         this.userInfo.patchValue(res)
@@ -45,7 +59,13 @@ export class LoginComponent implements OnInit {
       this.showForm = true;
     });
 
+    // console.log(this.title.getTitle())
+    this.route?.data?.subscribe((value:any)=>{
+      this.pageTitle = value['title'];
+      console.log('pageTitle',this.pageTitle)
+    })
 
+    console.log('eve',this.router)
   }
 
   private initForm(){
@@ -62,6 +82,9 @@ export class LoginComponent implements OnInit {
   }
   onSubmit(e:any){
     e.preventDefault();
+    if(this.userInfo.invalid){
+      console.log()
+    }
     console.log('Value first',this.userInfo.value)
     const current = this.testingServ.formValue.getValue();
     console.log('current Value',current)
@@ -79,7 +102,20 @@ export class LoginComponent implements OnInit {
     }
     this.testingServ.formValue.next([...current,newEntry])
     this.userInfo.reset();
+    this.snackBar.open('User registred successfully!!','close',{
+      duration:3000,
+      horizontalPosition:'right',
+      verticalPosition:'top'
+    })
     
   }
+  // ngOnChanges(changes: SimpleChanges): void {
+  //   if (changes['selectedUser']) {
+  //     console.log('selectedUser changed:', changes['selectedUser'].currentValue);
+  //     let res = changes['selectedUser'].currentValue
+  //     this.userInfo.patchValue(res)
+
+  //   }
+  // }
 
 }
